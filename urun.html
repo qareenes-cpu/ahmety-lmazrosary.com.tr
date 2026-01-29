@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Ürün Detayı | Ahmet Yılmaz Rosary</title>
+    <meta name="description"
+        content="Ahmet Yılmaz Rosary özel yapım tesbih detayları. Sanatkar işçiliği ve teknik özellikleri burada inceleyebilirsiniz.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <style>
+        /* Product Page Specific Layout (Themed via style.css) */
+        .product-page-container {
+            max-width: 1200px;
+            margin: 120px auto 60px;
+            padding: 0 40px;
+        }
+
+        .product-breadcrumb {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 15px;
+        }
+
+        .breadcrumb-links a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb-links a:hover {
+            color: var(--gold);
+        }
+
+        .product-nav-arrows {
+            display: flex;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+
+        .product-nav-arrows i {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .product-nav-arrows i:hover {
+            color: var(--gold);
+        }
+
+        .product-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .product-image-side {
+            background: #fdfdfd;
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .main-image-viewport {
+            position: relative;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .product-image-side img {
+            max-width: 100%;
+            height: auto;
+            max-height: 500px;
+            transition: opacity 0.5s ease;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: var(--gold);
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .thumbnails-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            padding: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 70px;
+            height: 70px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            object-fit: cover;
+            opacity: 0.6;
+            border-radius: 4px;
+        }
+
+        .thumbnail.active {
+            border-color: var(--gold);
+            opacity: 1;
+        }
+
+        .product-info-side h1 {
+            font-family: var(--font-cinzel);
+            font-size: 2.8rem;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        .product-specs-list {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .product-specs-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.95rem;
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-specs-list li span:first-child {
+            color: var(--text-muted);
+            min-width: 150px;
+        }
+
+        .whatsapp-inquiry-box {
+            background-color: var(--glass-bg);
+            border-left: 4px solid #25d366;
+            padding: 30px;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 40px;
+        }
+
+        .whatsapp-inquiry-box p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .wa-btn-large {
+            background-color: #25d366;
+            color: #fff !important;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+        }
+
+        .product-footer-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+            padding-top: 20px;
+        }
+
+        .meta-label {
+            font-weight: 700;
+        }
+
+        @media (max-width: 968px) {
+            .product-main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image-side {
+                min-height: 300px;
+            }
+
+            .main-image-viewport {
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body class="theme-light"> <!-- Default to light/dynamic -->
+    <nav class="navbar scrolled">
+        <div class="nav-left-icons">
+            <a href="https://www.instagram.com/ahmet_yilmazrosary?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                target="_blank" class="social-icon-link" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <button id="searchBtn" class="search-icon-btn" title="Ara">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <a href="index.html" class="logo"><span class="main-name">Ahmet Yılmaz</span><span
+                class="gold-text">Rosary</span></a>
+        <ul class="nav-links right">
+            <li><a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a></li>
+            <li><a href="#" id="favBtn"><i class="far fa-heart"></i></a></li>
+            <li class="kebab-menu-wrapper">
+                <button id="kebabBtn" class="kebab-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div id="kebabMenu" class="kebab-dropdown">
+                    <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                    <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+                    <a href="iletisim.html" data-i18n="nav_contact">İletişim</a>
+                    <a href="login.html"><i class="far fa-user"></i> <span data-i18n="login_text">Giriş Yap</span></a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+            <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a>
+            <a href="#" class="search-trigger"><i class="fas fa-search"></i> <span
+                    data-i18n="filter_search">Ara</span></a>
+            <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+            <a href="iletisim.html" data-i18n="nav_contact">İletişim</a>
+            <a href="login.html"><i class="far fa-user"></i> <span data-i18n="login_text">Giriş Yap</span></a>
+            <div class="mobile-lang-options"
+                style="display: flex; gap: 10px; padding: 20px; border-top: 1px solid rgba(212,175,55,0.1); margin-top: auto;">
+                <span onclick="setLanguage('tr')">TR</span>
+                <span onclick="setLanguage('en')">EN</span>
+                <span onclick="setLanguage('ar')">AR</span>
+                <span onclick="setLanguage('ru')">RU</span>
+                <span onclick="setLanguage('de')">DE</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="product-page-container">
+        <div class="product-breadcrumb">
+            <div class="breadcrumb-links">
+                <a href="index.html" data-i18n="nav_home">Ana Sayfa</a> /
+                <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a> /
+                <span id="breadcrumbCurrent" class="meta-label">-</span>
+            </div>
+            <div class="product-nav-arrows">
+                <i class="fas fa-chevron-left" id="prevProduct" title="Önceki Ürün"></i>
+                <i class="fas fa-th" onclick="window.location.href='koleksiyon.html'" title="Koleksiyona Dön"></i>
+                <i class="fas fa-chevron-right" id="nextProduct" title="Sonraki Ürün"></i>
+            </div>
+        </div>
+
+        <div class="product-main-grid">
+            <div class="product-image-side" id="productImageAside">
+                <div class="carousel-container" id="carouselContainer">
+                    <div class="main-image-viewport">
+                        <button class="carousel-btn prev" id="carouselPrev"><i class="fas fa-chevron-left"></i></button>
+                        <img id="productMainImage" src="" alt="Ürün Görseli">
+                        <button class="carousel-btn next" id="carouselNext"><i
+                                class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="thumbnails-container" id="thumbnailsContainer"></div>
+                </div>
+            </div>
+
+            <div class="product-info-side">
+                <h1 id="productTitle">-</h1>
+
+                <ul class="product-specs-list">
+                    <li><span data-i18n="serial_no_label">Seri Numarası</span> : <span id="specSerial">-</span></li>
+                    <li><span data-i18n="artist">Sanatkar</span> : <span id="specArtist">-</span></li>
+                    <li><span data-i18n="material">Materyal</span> : <span id="specMaterial">-</span></li>
+                    <li><span data-i18n="bead_count">Tane Sayısı</span> : <span id="specBeadCount">-</span></li>
+                    <li><span data-i18n="bead_size">Tane Boyutu</span> : <span id="specBeadSize">-</span></li>
+                    <li><span data-i18n="motif">İmame Motifi</span> : <span id="specMotif">-</span></li>
+                    <li><span data-i18n="imame_size">İmame Boyutu</span> : <span id="specImameSize">-</span></li>
+                </ul>
+
+                <div class="whatsapp-inquiry-box">
+                    <p data-i18n="wa_info">Bu ürün hakkında detaylı bilgi alabilirsiniz.</p>
+                    <a href="#" id="waLink" class="wa-btn-large">
+                        <i class="fab fa-whatsapp"></i>
+                        <span data-i18n="wa_btn">WHATSAPP İLE BİLGİ AL</span>
+                    </a>
+                    <p style="font-size: 0.8rem; margin-top: 15px; font-weight: 300; color: #888;" data-i18n="wa_sub">
+                        Ürün hakkında detaylı bilgi için WhatsApp üzerinden iletişime geçin.
+                    </p>
+                </div>
+
+                <div class="product-footer-meta">
+                    <p><span class="meta-label" data-i18n="sku">Stok kodu:</span> <span id="specSku">-</span></p>
+                    <p><span class="meta-label" data-i18n="categories">Kategoriler:</span> <span
+                            id="specCategory">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="iletisim">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Ahmet Yılmaz <span class="gold-text">Rosary</span></h3>
+                <p data-i18n="footer_brand_desc">Lüksün ve zarafetin adresi.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a>
+                <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/ahmet_yilmazrosary?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://wa.me/905350580363" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p data-i18n="copyright">&copy; 2026 Ahmet Yılmaz Rosary. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <button class="search-close-btn" id="searchCloseBtn">&times;</button>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInputModal" placeholder="Ürün ara..." autocomplete="off">
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Specific logic for product detail page
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const productId = parseInt(params.get('id'));
+
+            if (!productId) {
+                window.location.href = 'koleksiyon.html';
+                return;
+            }
+
+            // We need to wait for script.js to load products
+            const checkData = setInterval(() => {
+                if (window.allProducts && window.allProducts.length > 0) {
+                    clearInterval(checkData);
+                    renderProductDetails(productId);
+                }
+            }, 100);
+        });
+
+        function renderProductDetails(id) {
+            const product = window.allProducts.find(p => p.id === id);
+            if (!product) {
+                window.location.href = 'koleksiyon.html';
+                return;
+            }
+
+            const lang = localStorage.getItem('selectedLang') || 'tr';
+            // Localization is handled by script.js applyLanguage
+
+            document.getElementById('productTitle').textContent = product.name;
+            document.getElementById('breadcrumbCurrent').textContent = product.name;
+            document.getElementById('pageTitle').textContent = product.name + ' | Ahmet Yılmaz Rosary';
+
+            document.getElementById('specSerial').textContent = product.serial || '-';
+            document.getElementById('specArtist').textContent = product.artist || 'Ahmet Yılmaz';
+            document.getElementById('specMaterial').textContent = product.material || '-';
+            document.getElementById('specBeadCount').textContent = product.bead_count || product.beadCount || '-';
+            document.getElementById('specBeadSize').textContent = product.bead_size || product.beadSize || '-';
+            document.getElementById('specMotif').textContent = product.motif || '-';
+            document.getElementById('specImameSize').textContent = product.imame_size || product.imameSize || '-';
+            document.getElementById('specSku').textContent = product.sku || 'N/A';
+            document.getElementById('specCategory').textContent = product.category || '-';
+
+            // Carousel Logic
+            const mainImg = document.getElementById('productMainImage');
+            const thumbContainer = document.getElementById('thumbnailsContainer');
+            const prevImgBtn = document.getElementById('carouselPrev');
+            const nextImgBtn = document.getElementById('carouselNext');
+
+            let currentImgIdx = 0;
+            const images = (product.images && product.images.length > 0)
+                ? product.images
+                : ['assets/amber-tesbih.png'];
+
+            const updateImage = (idx) => {
+                currentImgIdx = idx;
+                mainImg.style.opacity = '0';
+                setTimeout(() => {
+                    mainImg.src = images[currentImgIdx];
+                    mainImg.style.opacity = '1';
+                }, 250);
+
+                // Update thumbnails active state
+                document.querySelectorAll('.thumbnail').forEach((t, i) => {
+                    t.classList.toggle('active', i === currentImgIdx);
+                });
+            };
+
+            // Build Thumbnails
+            thumbContainer.innerHTML = '';
+            if (images.length > 1) {
+                images.forEach((imgSrc, idx) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = imgSrc;
+                    thumb.className = `thumbnail ${idx === 0 ? 'active' : ''}`;
+                    thumb.onclick = () => updateImage(idx);
+                    thumbContainer.appendChild(thumb);
+                });
+
+                prevImgBtn.style.display = 'flex';
+                nextImgBtn.style.display = 'flex';
+
+                prevImgBtn.onclick = () => {
+                    let newIdx = currentImgIdx - 1;
+                    if (newIdx < 0) newIdx = images.length - 1;
+                    updateImage(newIdx);
+                };
+
+                nextImgBtn.onclick = () => {
+                    let newIdx = currentImgIdx + 1;
+                    if (newIdx >= images.length) newIdx = 0;
+                    updateImage(newIdx);
+                };
+            } else {
+                thumbContainer.style.display = 'none';
+                prevImgBtn.style.display = 'none';
+                nextImgBtn.style.display = 'none';
+            }
+
+            mainImg.src = images[0];
+
+            const waLink = document.getElementById('waLink');
+            const message = encodeURIComponent(`Merhaba, ${product.name} (${product.sku || product.id}) ürünü hakkında bilgi almak istiyorum.`);
+            waLink.href = `https://wa.me/905350580363?text=${message}`;
+
+            // Nav logic
+            const idx = window.allProducts.findIndex(p => p.id === id);
+            const prev = window.allProducts[idx - 1];
+            const next = window.allProducts[idx + 1];
+
+            const prevBtn = document.getElementById('prevProduct');
+            const nextBtn = document.getElementById('nextProduct');
+
+            if (prev) {
+                prevBtn.onclick = () => window.location.href = `urun.html?id=${prev.id}`;
+                prevBtn.style.opacity = '1';
+                prevBtn.style.cursor = 'pointer';
+            } else {
+                prevBtn.style.opacity = '0.3';
+                prevBtn.style.cursor = 'default';
+            }
+
+            if (next) {
+                nextBtn.onclick = () => window.location.href = `urun.html?id=${next.id}`;
+                nextBtn.style.opacity = '1';
+                nextBtn.style.cursor = 'pointer';
+            } else {
+                nextBtn.style.opacity = '0.3';
+                nextBtn.style.cursor = 'default';
+            }
+        }
+    </script>
+</body>
+
+</html>

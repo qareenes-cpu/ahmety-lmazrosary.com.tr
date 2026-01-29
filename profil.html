@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilim | Ahmet Yılmaz Rosary</title>
+    <meta name="description"
+        content="Ahmet Yılmaz Rosary kullanıcı profili. Siparişlerinizi takip edin, favori ürünlerinize göz atın ve hesap ayarlarınızı yönetin.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <style>
+        .profile-container {
+            padding: 150px 20px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 80vh;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeIn 1s ease;
+        }
+
+        .profile-header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-header p {
+            color: #aaa;
+            font-family: var(--font-cinzel);
+            letter-spacing: 2px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+        }
+
+        .profile-sidebar {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            height: fit-content;
+        }
+
+        .profile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .profile-nav-links li a {
+            color: #aaa;
+            text-decoration: none;
+            font-family: var(--font-cinzel);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-nav-links li a:hover,
+        .profile-nav-links li a.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            transform: translateX(5px);
+        }
+
+        .profile-content {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .profile-section {
+            display: none;
+        }
+
+        .profile-section.active {
+            display: block;
+        }
+
+        .profile-section h2 {
+            margin-bottom: 30px;
+            font-size: 2rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 15px;
+        }
+
+        /* My Orders Table */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #e0e0e0;
+        }
+
+        .orders-table th {
+            text-align: left;
+            padding: 15px;
+            color: var(--gold);
+            font-family: var(--font-cinzel);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .orders-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .order-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .status-processed {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .status-shipping {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196f3;
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+        }
+
+        /* Settings Form */
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 500px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group label {
+            color: #aaa;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .profile-input {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #fff;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+        }
+
+        .profile-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        @media (max-width: 992px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-sidebar {
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body class="profile-page">
+
+    <nav class="navbar scrolled">
+        <div class="nav-left-icons">
+            <a href="https://www.instagram.com/ahmet_yilmazrosary?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                target="_blank" class="social-icon-link" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <button id="searchBtn" class="search-icon-btn" title="Ara">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <a href="index.html" class="logo"><span class="main-name">Ahmet Yılmaz</span><span
+                class="gold-text">Rosary</span></a>
+        <ul class="nav-links right">
+            <li><a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a></li>
+            <li><a href="#" id="favBtn"><i class="far fa-heart"></i></a></li>
+            <li class="kebab-menu-wrapper">
+                <button id="kebabBtn" class="kebab-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div id="kebabMenu" class="kebab-dropdown">
+                    <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                    <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+                    <a href="iletisim.html" data-i18n="nav_contact">İletişim</a>
+                    <a href="profil.html" style="color: var(--gold);"><i class="far fa-user"></i> <span
+                            data-i18n="nav_profile">Profilim</span></a>
+                    <a href="#" id="logoutBtnTop" style="color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i> <span
+                            data-i18n="logout_text">Çıkış Yap</span></a>
+                </div>
+            </li>
+            <li class="lang-selector-wrapper">
+                <div class="lang-selector">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentLang">TR</span>
+                    <div class="lang-dropdown">
+                        <div class="lang-option" onclick="setLanguage('tr')">Türkçe <span>TR</span></div>
+                        <div class="lang-option" onclick="setLanguage('en')">English <span>EN</span></div>
+                        <div class="lang-option" onclick="setLanguage('ar')">العربية <span>AR</span></div>
+                        <div class="lang-option" onclick="setLanguage('ru')">Русский <span>RU</span></div>
+                        <div class="lang-option" onclick="setLanguage('de')">Deutsch <span>DE</span></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+            <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a>
+            <a href="#" class="search-trigger"><i class="fas fa-search"></i> <span
+                    data-i18n="filter_search">Ara</span></a>
+            <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+            <a href="iletisim.html" data-i18n="nav_contact">İletişim</a>
+            <a href="#" id="logoutBtnMobile" style="color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i> <span
+                    data-i18n="logout_text">Çıkış Yap</span></a>
+            <div class="mobile-lang-options"
+                style="display: flex; gap: 10px; padding: 20px; border-top: 1px solid rgba(212,175,55,0.1); margin-top: auto;">
+                <span onclick="setLanguage('tr')">TR</span>
+                <span onclick="setLanguage('en')">EN</span>
+                <span onclick="setLanguage('ar')">AR</span>
+                <span onclick="setLanguage('ru')">RU</span>
+                <span onclick="setLanguage('de')">DE</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <header class="profile-header">
+            <h1>Hoş Geldin, <span class="gold-text" id="displayUsername">Kullanıcı</span></h1>
+            <p>Sizin İçin Özel Seçkiler ve Sipariş Yönetimi</p>
+        </header>
+
+        <div class="profile-grid">
+            <aside class="profile-sidebar">
+                <nav>
+                    <ul class="profile-nav-links">
+                        <li><a href="#orders" class="active" data-section="orders"><i class="fas fa-shopping-bag"></i>
+                                Siparişlerim</a></li>
+                        <li><a href="#favorites" data-section="favorites"><i class="fas fa-heart"></i> Favorilerim</a>
+                        </li>
+                        <li><a href="#settings" data-section="settings"><i class="fas fa-user-cog"></i> Hesap
+                                Ayarları</a></li>
+                        <li><a href="#" id="logoutBtnMain" style="color: #ff4d4d;"><i class="fas fa-sign-out-alt"></i>
+                                Çıkış Yap</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="profile-content">
+                <!-- Orders Section -->
+                <section id="orders" class="profile-section active">
+                    <h2>Siparişlerim</h2>
+                    <div id="ordersContainer">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Sipariş No</th>
+                                    <th>Tarih</th>
+                                    <th>Tutar</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersList">
+                                <!-- Mock Orders -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Favorites Section -->
+                <section id="favorites" class="profile-section">
+                    <h2>Favorilerim</h2>
+                    <div id="profileFavList">
+                        <!-- Fav items will be loaded here -->
+                        <p class="empty-msg">Henüz favori ürününüz yok.</p>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="profile-section">
+                    <h2>Hesap Ayarları</h2>
+                    <form id="settingsForm" class="settings-form">
+                        <div class="input-group">
+                            <label>Ad Soyad</label>
+                            <input type="text" id="setFullname" class="profile-input" value="Kullanıcı Adı">
+                        </div>
+                        <div class="input-group">
+                            <label>E-posta</label>
+                            <input type="email" id="setEmail" class="profile-input" value="user@example.com">
+                        </div>
+                        <div class="input-group">
+                            <label>Yeni Şifre</label>
+                            <input type="password" id="setNewPass" class="profile-input" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn-gold">GÜNCELLE</button>
+                    </form>
+                    <div id="settingsMsg" style="margin-top:20px;"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Favorites Drawer (Shared) -->
+    <div class="favorites-drawer" id="favoritesDrawer">
+        <div class="drawer-header">
+            <h3>Favorilerim</h3>
+            <button id="closeFavBtn">&times;</button>
+        </div>
+        <div class="drawer-body" id="favList">
+            <p class="empty-msg">Henüz favori ürününüz yok.</p>
+        </div>
+    </div>
+
+    <footer id="iletisim">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Ahmet Yılmaz <span class="gold-text">Rosary</span></h3>
+                <p data-i18n="footer_brand_desc">Lüksün ve zarafetin adresi.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a>
+                <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/ahmet_yilmazrosary?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://wa.me/905350580363" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p data-i18n="copyright">&copy; 2026 Ahmet Yılmaz Rosary. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check Login State
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load Favorites from localStorage
+            const profileFavList = document.getElementById('profileFavList');
+            const loadProfileFavorites = () => {
+                const favorites = JSON.parse(localStorage.getItem('ahmetFavorites')) || [];
+                if (favorites.length === 0) {
+                    profileFavList.innerHTML = '<p class="empty-msg" style="text-align:center; color:#555; margin-top:50px;">Henüz favori ürününüz yok.</p>';
+                    return;
+                }
+
+                profileFavList.innerHTML = '<div class="gallery" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">' + favorites.map(item => `
+                    <div class="card" style="transform:none; opacity:1;">
+                        <div class="card-image">
+                            <img src="${item.img}" style="filter: ${item.filter}">
+                        </div>
+                        <div class="card-info">
+                            <h3>${item.name}</h3>
+                            <span class="price">${item.price}</span>
+                            <div class="action-btns" style="justify-content:center; gap:10px;">
+                                <a href="https://wa.me/905350580363?text=Merhaba, ${item.name} hakkında bilgi almak istiyorum." target="_blank" class="btn-whatsapp-mini" style="text-decoration:none; background:#25d366; color:#fff; padding:8px 15px; border-radius:4px; font-size:0.8rem;"><i class="fab fa-whatsapp"></i> Sor</a>
+                                <button class="btn-remove-fav-profile" data-id="${item.id}" style="background:#ff4d4d; border:none; color:#fff; padding:8px 15px; border-radius:4px; cursor:pointer; font-size:0.8rem;">Kaldır</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('') + '</div>';
+
+                // Re-attach remove events
+                document.querySelectorAll('.btn-remove-fav-profile').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = parseInt(e.target.getAttribute('data-id'));
+                        let favorites = JSON.parse(localStorage.getItem('ahmetFavorites')) || [];
+                        favorites = favorites.filter(f => f.id !== id);
+                        localStorage.setItem('osmanliFavorites', JSON.stringify(favorites));
+                        loadProfileFavorites();
+                    });
+                });
+            };
+
+            // Section Toggling with Favorites Load
+            const navLinks = document.querySelectorAll('.profile-nav-links a[data-section]');
+            const sections = document.querySelectorAll('.profile-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = link.getAttribute('data-section');
+
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+
+                    link.classList.add('active');
+                    document.getElementById(target).classList.add('active');
+
+                    if (target === 'favorites') {
+                        loadProfileFavorites();
+                    }
+                });
+            });
+
+
+            // Load User Data
+            const username = localStorage.getItem('username') || 'Kullanıcı';
+            document.getElementById('displayUsername').innerText = username;
+            document.getElementById('setFullname').value = username;
+
+            // Load Mock Orders
+            const ordersList = document.getElementById('ordersList');
+            const mockOrders = [
+                { id: '#OSM-102', date: '12 Ocak 2026', total: '₺12.500', status: 'processed', statusText: 'Hazırlandı' },
+                { id: '#OSM-095', date: '05 Ocak 2026', total: '₺8.750', status: 'shipping', statusText: 'Kargoda' }
+            ];
+
+            ordersList.innerHTML = mockOrders.map(order => `
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.date}</td>
+                    <td>${order.total}</td>
+                    <td><span class="order-status status-${order.status}">${order.statusText}</span></td>
+                </tr>
+            `).join('');
+
+            // Logout Logic
+            const logout = (e) => {
+                e.preventDefault();
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('username');
+                window.location.href = 'index.html';
+            };
+
+            document.getElementById('logoutBtnTop').addEventListener('click', logout);
+            document.getElementById('logoutBtnMain').addEventListener('click', logout);
+
+            // Settings Form
+            const settingsForm = document.getElementById('settingsForm');
+            const settingsMsg = document.getElementById('settingsMsg');
+
+            settingsForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newName = document.getElementById('setFullname').value;
+                localStorage.setItem('username', newName);
+                document.getElementById('displayUsername').innerText = newName;
+
+                settingsMsg.innerHTML = '<span class="msg-success" style="color:#4caf50">Bilgileriniz başarıyla güncellendi!</span>';
+                setTimeout(() => settingsMsg.innerHTML = '', 3000);
+            });
+        });
+    </script>
+</body>
+
+</html>

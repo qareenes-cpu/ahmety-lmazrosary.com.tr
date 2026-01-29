@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol | Ahmet Yılmaz Rosary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+</head>
+
+<body class="login-page">
+
+    <div class="login-card">
+        <a href="index.html" class="logo"><span class="main-name">Ahmet Yılmaz</span><span
+                class="gold-text">Rosary</span></a>
+        <h2>Kayıt Ol</h2>
+
+        <form id="registerForm" class="login-form">
+            <div class="input-group">
+                <label for="regName">Ad Soyad</label>
+                <input type="text" id="regName" class="login-input" placeholder="Örn: Ahmet Yılmaz" required
+                    autocomplete="name">
+            </div>
+
+            <div class="input-group">
+                <label for="regEmail">E-posta</label>
+                <input type="email" id="regEmail" class="login-input" placeholder="example@mail.com" required
+                    autocomplete="email">
+            </div>
+
+            <div class="input-group">
+                <label for="regPassword">Şifre</label>
+                <input type="password" id="regPassword" class="login-input" placeholder="••••••••" required
+                    autocomplete="new-password">
+            </div>
+
+            <button type="submit" class="btn-login">HESAP OLUŞTUR</button>
+
+            <div id="registerMessage"></div>
+        </form>
+
+        <div class="login-footer">
+            <p>Zaten hesabınız var mı? <a href="login.html">Giriş Yap</a></p>
+            <p>&copy; 2026 Ahmet Yılmaz Rosary. Tüm hakları saklıdır.</p>
+            <p><a href="index.html"><i class="fas fa-arrow-left"></i> Web Sitesine Dön</a></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

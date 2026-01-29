@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetim Paneli | Ahmet Yılmaz Rosary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <style>
+        :root {
+            --admin-bg: #050505;
+            --sidebar-bg: rgba(15, 15, 15, 0.95);
+            --card-bg: rgba(20, 20, 20, 0.6);
+            --accent-gold: #d4af37;
+            --accent-gold-dark: #b8860b;
+            --accent-gold-light: #f9f1d0;
+            --text-muted: #888;
+            --glass-border: rgba(212, 175, 55, 0.15);
+            --sidebar-width: 280px;
+        }
+
+        body {
+            background-color: var(--admin-bg);
+            color: #fff;
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Premium Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-header {
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .sidebar-header .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: #fff;
+            display: block;
+        }
+
+        .sidebar-header .logo-gold {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .sidebar-nav {
+            padding: 30px 15px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: var(--accent-gold);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .sidebar-footer {
+            padding: 30px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold-dark), var(--accent-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+        }
+
+        .admin-info span {
+            display: block;
+            font-size: 0.85rem;
+        }
+
+        .admin-info .role {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 40px 50px;
+            transition: all 0.4s ease;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+        }
+
+        .header-title h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            margin: 5px 0 0;
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card-premium {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .stat-card-premium:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card-premium .label {
+            color: var(--text-muted);
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .stat-card-premium .value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #fff;
+            margin: 10px 0;
+        }
+
+        .stat-card-premium i {
+            position: absolute;
+            right: 30px;
+            top: 30px;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            opacity: 0.2;
+        }
+
+        /* Data Section */
+        .data-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .data-section.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-top {
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .section-top h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: #fff;
+            margin: 0;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 20px 30px;
+            text-align: left;
+            color: var(--accent-gold);
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        td {
+            padding: 20px 30px;
+            color: #ccc;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.05);
+        }
+
+        tr:hover td {
+            background: rgba(212, 175, 55, 0.02);
+        }
+
+        .status-pill {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .status-completed {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        .btn-action {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* Buttons */
+        .btn-premium {
+            background: linear-gradient(135deg, var(--accent-gold-dark), var(--accent-gold));
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-container {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--accent-gold);
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive Refinements */
+        @media (max-width: 1200px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            :root {
+                --sidebar-width: 80px;
+            }
+
+            .sidebar-header .logo-text,
+            .admin-info,
+            .nav-text {
+                display: none;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 0px;
+            }
+
+            .sidebar {
+                left: -280px;
+                width: 280px;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .sidebar-header .logo-text,
+            .admin-info,
+            .nav-text {
+                display: flex;
+            }
+
+            .nav-item {
+                justify-content: flex-start;
+                padding: 15px 20px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .header-title h1 {
+                font-size: 1.6rem;
+            }
+
+            .content-header {
+                margin-bottom: 30px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .mobile-toggle {
+                display: flex !important;
+            }
+
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(5px);
+                z-index: 999;
+                display: none;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+
+            .section-top {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .search-box input {
+                width: 100% !important;
+            }
+
+            table th,
+            table td {
+                padding: 12px 15px;
+                font-size: 0.8rem;
+            }
+
+            .product-thumb {
+                width: 30px !important;
+                height: 30px !important;
+            }
+        }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: var(--accent-gold);
+            border-radius: 10px;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.2rem;
+            z-index: 1100;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Controls -->
+    <div class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Premium Sidebar -->
+    <aside class="sidebar" id="adminSidebar">
+        <div class="sidebar-header">
+            <span class="logo-text">AHMET YILMAZ<br><span class="logo-gold">ROSARY</span></span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <button class="nav-item active" data-tab="products">
+                <i class="fas fa-box"></i>
+                <span class="nav-text">Ürün Yönetimi</span>
+            </button>
+            <button class="nav-item" data-tab="users">
+                <i class="fas fa-users"></i>
+                <span class="nav-text">Kullanıcılar</span>
+            </button>
+            <button class="nav-item" data-tab="settings">
+                <i class="fas fa-crown"></i>
+                <span class="nav-text">Mağaza Ayarları</span>
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-profile">
+                <div class="admin-avatar">A</div>
+                <div class="admin-info">
+                    <span id="adminUsername">Admin</span>
+                    <span class="role">Yönetici</span>
+                </div>
+            </div>
+            <button class="nav-item" id="logoutBtn" style="color: #f44336; padding: 10px;">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="nav-text">Güvenli Çıkış</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="content-header">
+            <div class="header-title">
+                <p id="currentDate">20 Ocak 2026</p>
+                <h1>Hoş Geldiniz</h1>
+            </div>
+            <button class="btn-premium" id="addProductBtn">
+                <i class="fas fa-plus"></i> Yeni Ürün
+            </button>
+        </header>
+
+        <section class="stats-row" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="stat-card-premium">
+                <div class="label">Katalog</div>
+                <div class="value" id="totalProducts">0</div>
+                <div class="sub">Toplam Ürün</div>
+                <i class="fas fa-box"></i>
+            </div>
+            <div class="stat-card-premium">
+                <div class="label">Portföy</div>
+                <div class="value" id="totalUsers">0</div>
+                <div class="sub">Kayıtlı Müşteri</div>
+                <i class="fas fa-users"></i>
+            </div>
+        </section>
+
+        <!-- Dynamic Data Sections -->
+        <div class="data-section active" id="products">
+            <div class="section-top">
+                <h2>Ürün Listesi</h2>
+                <div class="search-box" style="position: relative;">
+                    <i class="fas fa-search"
+                        style="position: absolute; left: 15px; top: 12px; color: var(--text-muted);"></i>
+                    <input type="text" placeholder="Ürün ara..."
+                        style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 10px 15px 10px 40px; border-radius: 8px; color: #fff; font-size: 0.85rem; width: 250px;">
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ürün</th>
+                            <th>Kategori</th>
+                            <th>Fiyat</th>
+                            <th>Stok Kodu</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div class="data-section" id="users">
+            <div class="section-top">
+                <h2>Müşteri Portföyü</h2>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>E-posta</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>Sipariş</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="data-section" id="settings">
+            <div class="section-top">
+                <h2>Mağaza Konfigürasyonu</h2>
+            </div>
+            <div style="padding: 40px;">
+                <div class="settings-container" style="padding: 40px; max-width: 600px;">
+                    <!-- Price Visibility Setting -->
+                    <div class="setting-item"
+                        style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid var(--glass-border); margin-bottom: 30px;">
+                        <div>
+                            <h3 style="color: #fff; margin-bottom: 5px; font-family: 'Cinzel', serif;">Fiyatları Göster
+                            </h3>
+                            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Web sitesindeki tüm ürün
+                                fiyatlarını herkese açık olarak göster.</p>
+                        </div>
+                        <label class="switch"
+                            style="position: relative; display: inline-block; width: 60px; height: 34px;">
+                            <input type="checkbox" id="togglePriceVisibility">
+                            <span class="slider round"
+                                style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border-radius: 34px;"></span>
+                            <style>
+                                .slider:before {
+                                    position: absolute;
+                                    content: "";
+                                    height: 26px;
+                                    width: 26px;
+                                    left: 4px;
+                                    bottom: 4px;
+                                    background-color: white;
+                                    transition: .4s;
+                                    border-radius: 50%;
+                                }
+
+                                input:checked+.slider {
+                                    background-color: var(--accent-gold);
+                                }
+
+                                input:focus+.slider {
+                                    box-shadow: 0 0 1px var(--accent-gold);
+                                }
+
+                                input:checked+.slider:before {
+                                    transform: translateX(26px);
+                                }
+                            </style>
+                        </label>
+                    </div>
+
+                    <!-- Site Theme Setting -->
+                    <div class="setting-item"
+                        style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid var(--glass-border); margin-bottom: 30px;">
+                        <div>
+                            <h3 style="color: #fff; margin-bottom: 5px; font-family: 'Cinzel', serif;">Site Teması</h3>
+                            <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">Web sitesinin genel renk
+                                paletini belirleyin.</p>
+                        </div>
+                        <select id="siteThemeSelect"
+                            style="background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); padding: 10px; border-radius: 4px; color: #fff; width: 200px;">
+                            <option value="white-black">Beyaz & Siyah</option>
+                            <option value="black-white">Siyah & Beyaz</option>
+                            <option value="black-gold">Siyah & Altın</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Management Setting -->
+                    <div class="setting-item"
+                        style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 8px; border: 1px solid var(--glass-border);">
+                        <h3
+                            style="color: #fff; margin-bottom: 20px; font-family: 'Cinzel', serif; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                            Kategori Yönetimi
+                        </h3>
+
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <input type="text" id="newCategoryInput" placeholder="Yeni kategori adı..."
+                                style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); padding: 10px; border-radius: 4px; color: #fff;">
+                            <button id="addCategoryBtn" class="btn-premium" style="padding: 10px 20px;">Ekle</button>
+                        </div>
+
+                        <div id="categoriesList"
+                            style="display: flex; flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; padding-right: 5px;">
+                            <!-- Categories will be injected here -->
+                            <p style="color: #666; font-style: italic;">Kategoriler yükleniyor...</p>
+                        </div>
+                    </div>
+
+                    <!-- Hero Images Management -->
+                    <div class="setting-item"
+                        style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 8px; border: 1px solid var(--glass-border); margin-top: 30px;">
+                        <h3
+                            style="color: #fff; margin-bottom: 20px; font-family: 'Cinzel', serif; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                            Ana Sayfa Görselleri
+                        </h3>
+                        <p style="color: #888; font-size: 0.85rem; margin-bottom: 20px;">
+                            Ana sayfanın üst kısmında görünecek büyük görselleri buradan yönetebilirsiniz.
+                        </p>
+
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <input type="file" id="heroImageInput" accept="image/*" style="display: none;">
+                            <button id="triggerHeroUploadBtn" class="btn-premium" style="padding: 10px 20px;">
+                                <i class="fas fa-image"></i> Görsel Yükle
+                            </button>
+                        </div>
+
+                        <div id="heroImagesList"
+                            style="display: flex; flex-direction: column; gap: 15px; max-height: 400px; overflow-y: auto; padding-right: 5px;">
+                            <!-- Hero images will be injected here -->
+                            <p style="color: #666; font-style: italic;">Görseller yükleniyor...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="productModalOverlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modalTitle">Yeni Ürün Ekle</h3>
+                <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Ürün Adı</label>
+                            <input type="text" id="productName" required placeholder="Örn: Erzurum Oltu">
+                        </div>
+                        <div class="form-group">
+                            <label>Fiyat (₺)</label>
+                            <input type="text" id="productPrice" required placeholder="Örn: ₺8.750">
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select id="productCategory">
+                                <option value="" disabled selected>Yükleniyor...</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Ürün Görselleri</label>
+
+                            <!-- File Upload UI -->
+                            <div
+                                style="background: rgba(255,255,255,0.02); border: 1px dashed var(--glass-border); padding: 20px; border-radius: 8px; margin-bottom: 15px; text-align: center;">
+                                <input type="file" id="imageUploadInput" multiple accept="image/*"
+                                    style="display: none;">
+                                <button type="button" id="triggerUploadBtn" class="btn-secondary"
+                                    style="margin-bottom: 10px;">
+                                    <i class="fas fa-cloud-upload-alt"></i> Bilgisayardan Fotoğraf Seç
+                                </button>
+                                <p style="font-size: 0.8rem; color: #666; margin: 0;">Seçilen fotoğraflar otomatik
+                                    olarak sisteme yüklenir ve aşağıya eklenir.</p>
+                            </div>
+
+                            <label style="font-size: 0.75rem; margin-top: 10px;">Görsel URL Listesi
+                                (Düzenlenebilir)</label>
+                            <textarea id="productImageUrl" rows="4"
+                                placeholder="Örn: assets/kehribar-1.png (Her satıra yeni bir resim yolu/linki yazın)"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Açıklama</label>
+                            <textarea id="productDesc" rows="3"
+                                placeholder="Ürün detaylarını buraya yazın..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Stok Kodu (SKU)</label>
+                            <input type="text" id="productSku" placeholder="Örn: OLT002">
+                        </div>
+                        <div class="form-group">
+                            <label>Seri Numarası</label>
+                            <input type="text" id="productSerial" placeholder="Örn: 9120341002">
+                        </div>
+                        <div class="form-group">
+                            <label>Sanatkar</label>
+                            <input type="text" id="productArtist" placeholder="Örn: Ali Usta">
+                        </div>
+                        <div class="form-group">
+                            <label>Materyal</label>
+                            <input type="text" id="productMaterial" placeholder="Örn: Oltu Taşı">
+                        </div>
+                        <div class="form-group">
+                            <label>Tane Sayısı</label>
+                            <input type="text" id="productBeadCount" placeholder="Örn: 33">
+                        </div>
+                        <div class="form-group">
+                            <label>Tane Boyutu</label>
+                            <input type="text" id="productBeadSize" placeholder="Örn: 8 x 12 mm">
+                        </div>
+                        <div class="form-group">
+                            <label>İmame Motifi</label>
+                            <input type="text" id="productMotif" placeholder="Örn: Lale">
+                        </div>
+                        <div class="form-group">
+                            <label>İmame Boyutu</label>
+                            <input type="text" id="productImameSize" placeholder="Örn: 70 mm">
+                        </div>
+                        <div class="form-group"
+                            style="display: flex; align-items: center; gap: 10px; grid-column: span 1;">
+                            <input type="checkbox" id="productInStock" style="width: auto;" checked>
+                            <label style="margin: 0; cursor: pointer;" for="productInStock">Stokta Var</label>
+                        </div>
+                        <div class="form-group"
+                            style="display: flex; align-items: center; gap: 10px; grid-column: span 1;">
+                            <input type="checkbox" id="productFeatured" style="width: auto;">
+                            <label style="margin: 0; cursor: pointer;" for="productFeatured">Öne Çıkar</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelModalBtn">İptal</button>
+                <button class="btn-premium" type="submit" form="productForm">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="qrModalOverlay" class="modal-overlay">
+        <div class="modal-container" style="max-width: 400px; text-align: center;">
+            <div class="modal-header">
+                <h3>Ürün QR Kodu</h3>
+                <button class="modal-close-btn" id="closeQrModalBtn">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 40px;">
+                <div id="qrcode" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
+                <p id="qrProductName"
+                    style="font-family: 'Cinzel', serif; color: var(--accent-gold); margin-bottom: 10px;"></p>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">Bu QR kod ürün detay sayfasına yönlendirir.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-premium" onclick="window.printQr()">Yazdır</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="admin.js"></script>
+    <script>
+        // Update current date
+        const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('tr-TR', dateOptions);
+    </script>
+</body>
+
+</html>

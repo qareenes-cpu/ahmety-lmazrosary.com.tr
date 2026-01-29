@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koleksiyon | Ahmet Yılmaz Rosary</title>
+    <meta name="description"
+        content="Ahmet Yılmaz Rosary özel koleksiyonu. Kehribar, Oltu ve Kuka gibi en seçkin malzemelerden üretilmiş el işçiliği tesbihleri keşfedin.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left-icons">
+            <a href="https://www.instagram.com/ahmet_yilmazrosary?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                target="_blank" class="social-icon-link" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <button id="searchBtn" class="search-icon-btn" title="Ara">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <a href="index.html" class="logo"><span class="main-name">Ahmet Yılmaz</span><span
+                class="gold-text">Rosary</span></a>
+        <ul class="nav-links right">
+            <li><a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a></li>
+            <li><a href="#" id="favBtn"><i class="far fa-heart"></i></a></li>
+            <li class="kebab-menu-wrapper">
+                <button id="kebabBtn" class="kebab-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div id="kebabMenu" class="kebab-dropdown">
+                    <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                    <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+                    <a href="iletisim.html" data-i18n="nav_contact">İletişim</a>
+                    <a href="login.html"><i class="far fa-user"></i> <span data-i18n="login_text">Giriş Yap</span></a>
+                </div>
+            </li>
+            <li class="lang-selector-wrapper">
+                <div class="lang-selector">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentLang">TR</span>
+                    <div class="lang-dropdown">
+                        <div class="lang-option" onclick="setLanguage('tr')">Türkçe <span>TR</span></div>
+                        <div class="lang-option" onclick="setLanguage('en')">English <span>EN</span></div>
+                        <div class="lang-option" onclick="setLanguage('ar')">العربية <span>AR</span></div>
+                        <div class="lang-option" onclick="setLanguage('ru')">Русский <span>RU</span></div>
+                        <div class="lang-option" onclick="setLanguage('de')">Deutsch <span>DE</span></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+            <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a>
+            <a href="#" class="search-trigger"><i class="fas fa-search"></i> <span
+                    data-i18n="filter_search">Ara</span></a>
+            <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+            <a href="iletisim.html" data-i18n="nav_contact">İletişim</a>
+            <a href="login.html"><i class="far fa-user"></i> <span data-i18n="login_text">Giriş Yap</span></a>
+            <div class="mobile-lang-options"
+                style="display: flex; gap: 10px; padding: 20px; border-top: 1px solid rgba(212,175,55,0.1); margin-top: auto;">
+                <span onclick="setLanguage('tr')">TR</span>
+                <span onclick="setLanguage('en')">EN</span>
+                <span onclick="setLanguage('ar')">AR</span>
+                <span onclick="setLanguage('ru')">RU</span>
+                <span onclick="setLanguage('de')">DE</span>
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- Favorites Drawer -->
+    <div class="favorites-drawer" id="favoritesDrawer">
+        <div class="drawer-header">
+            <h3 data-i18n="favorites_title">Favorilerim</h3>
+            <button id="closeFavBtn">&times;</button>
+        </div>
+        <div class="drawer-body" id="favList">
+            <!-- Favorites will be loaded here -->
+            <p class="empty-msg" data-i18n="fav_empty">Henüz favori ürününüz yok.</p>
+        </div>
+    </div>
+
+    <header class="page-header">
+        <h1 data-i18n="collection_title">Tüm <span class="gold-text">Koleksiyon</span></h1>
+    </header>
+
+    <div class="collection-container">
+        <!-- Sidebar Filters -->
+        <aside class="sidebar">
+            <nav class="breadcrumbs">
+                <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                <span><i class="fas fa-chevron-right"></i></span>
+                <span class="current" data-i18n="nav_collection">Koleksiyon</span>
+            </nav>
+
+            <div class="filter-group">
+                <h3 data-i18n="filter_search">Ara</h3>
+                <input type="text" id="searchInput" placeholder="Ürün ara..."
+                    data-i18n-placeholder="search_placeholder">
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="collection-main">
+            <div class="horizontal-categories-wrapper">
+                <ul class="category-chips-list" id="categoryFilters">
+                    <!-- Categories injected via JS -->
+                </ul>
+                <button class="btn-browse-all" id="openCategoryDrawer" title="Tüm Kategoriler">
+                    <i class="fas fa-th-large"></i>
+                </button>
+            </div>
+
+            <!-- Luxury Category Drawer -->
+            <div id="categoryDrawerOverlay" class="drawer-overlay">
+                <div class="category-drawer">
+                    <div class="drawer-header">
+                        <div class="drawer-title">
+                            <h2 data-i18n="filter_categories">Kategoriler</h2>
+                            <p data-i18n="drawer_subtitle">Tüm koleksiyonu keşfedin</p>
+                        </div>
+                        <button class="drawer-close" id="closeCategoryDrawer">&times;</button>
+                    </div>
+                    <div class="drawer-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="drawerSearchInput" placeholder="Kategori ara..."
+                            data-i18n-placeholder="search_placeholder">
+                    </div>
+                    <div class="drawer-body">
+                        <div class="category-grid" id="drawerCategoryGrid">
+                            <!-- Categories injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="collection-toolbar">
+                <button id="filterToggle" class="btn-dots" title="Filtrele">...</button>
+                <div class="result-count">
+                    <span id="productCount">0</span> <span data-i18n="listing_info">Ürün Listeleniyor</span>
+                </div>
+                <div class="sort-wrapper">
+                    <label for="sortSelect" data-i18n="sort_by">Sırala:</label>
+                    <select id="sortSelect">
+                        <option value="default" data-i18n="sort_default">Önerilen</option>
+                        <option value="price-asc" data-i18n="sort_price_asc">Fiyat (Düşükten Yükseğe)</option>
+                        <option value="price-desc" data-i18n="sort_price_desc">Fiyat (Yüksekten Düşüğe)</option>
+                        <option value="name-asc" data-i18n="sort_name_asc">İsim (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="gallery" id="fullGallery">
+                <!-- Products loaded via JS -->
+            </div>
+            <div class="pagination-container" id="paginationContainer">
+                <button id="loadMoreMobile" class="btn-load-more" data-i18n="load_more">Daha Fazla Göster</button>
+            </div>
+        </main>
+    </div>
+
+    <footer id="iletisim">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Ahmet Yılmaz <span class="gold-text">Rosary</span></h3>
+                <p data-i18n="footer_brand_desc">Lüksün ve zarafetin adresi.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a>
+                <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/ahmet_yilmazrosary?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://wa.me/905350580363" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p data-i18n="copyright">&copy; 2026 Ahmet Yılmaz Rosary. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <input type="hidden" id="page-collection" value="true">
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <button class="search-close-btn" id="searchCloseBtn">&times;</button>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInputModal" placeholder="Ürün ara..." autocomplete="off">
+            </div>
+            <div class="search-results" id="searchResults">
+                <!-- Search results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Floating Lang FAB -->
+    <div class="mobile-lang-fab" id="mobileLangFab">
+        <i class="fas fa-globe"></i>
+        <div class="lang-menu-popover">
+            <div class="lang-pop-item" onclick="setLanguage('tr')">TR</div>
+            <div class="lang-pop-item" onclick="setLanguage('en')">EN</div>
+            <div class="lang-pop-item" onclick="setLanguage('ar')">AR</div>
+            <div class="lang-pop-item" onclick="setLanguage('ru')">RU</div>
+            <div class="lang-pop-item" onclick="setLanguage('de')">DE</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorgula | Ahmet Yılmaz Rosary</title>
+    <meta name="description"
+        content="Ahmet Yılmaz Rosary sertifika sorgulama sayfası. Ürününüzün orijinalliğini ve sanatkar bilgilerini buradan teyit edin.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left-icons">
+            <a href="https://www.instagram.com/ahmet_yilmazrosary?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                target="_blank" class="social-icon-link" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <button id="searchBtn" class="search-icon-btn" title="Ara">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <a href="index.html" class="logo"><span class="main-name">Ahmet Yılmaz</span><span
+                class="gold-text">Rosary</span></a>
+        <ul class="nav-links right">
+            <li><a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a></li>
+            <li><a href="#" id="favBtn"><i class="far fa-heart"></i></a></li>
+            <li class="kebab-menu-wrapper">
+                <button id="kebabBtn" class="kebab-btn"><i class="fas fa-ellipsis-v"></i></button>
+                <div id="kebabMenu" class="kebab-dropdown">
+                    <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                    <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+                    <a href="iletisim.html" data-i18n="nav_contact">İletişim</a>
+                    <a href="login.html"><i class="far fa-user"></i> <span data-i18n="login_text">Giriş Yap</span></a>
+                </div>
+            </li>
+            <li class="lang-selector-wrapper">
+                <div class="lang-selector">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentLang">TR</span>
+                    <div class="lang-dropdown">
+                        <div class="lang-option" onclick="setLanguage('tr')">Türkçe <span>TR</span></div>
+                        <div class="lang-option" onclick="setLanguage('en')">English <span>EN</span></div>
+                        <div class="lang-option" onclick="setLanguage('ar')">العربية <span>AR</span></div>
+                        <div class="lang-option" onclick="setLanguage('ru')">Русский <span>RU</span></div>
+                        <div class="lang-option" onclick="setLanguage('de')">Deutsch <span>DE</span></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+            <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a>
+            <a href="#" class="search-trigger"><i class="fas fa-search"></i> <span
+                    data-i18n="filter_search">Ara</span></a>
+            <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+            <a href="iletisim.html" data-i18n="nav_contact">İletişim</a>
+            <a href="login.html"><i class="far fa-user"></i> <span data-i18n="login_text">Giriş Yap</span></a>
+            <div class="mobile-lang-options"
+                style="display: flex; gap: 10px; padding: 20px; border-top: 1px solid rgba(212,175,55,0.1); margin-top: auto;">
+                <span onclick="setLanguage('tr')">TR</span>
+                <span onclick="setLanguage('en')">EN</span>
+                <span onclick="setLanguage('ar')">AR</span>
+                <span onclick="setLanguage('ru')">RU</span>
+                <span onclick="setLanguage('de')">DE</span>
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- Favorites Drawer -->
+    <div class="favorites-drawer" id="favoritesDrawer">
+        <div class="drawer-header">
+            <h3 data-i18n="favorites_title">Favorilerim</h3>
+            <button id="closeFavBtn">&times;</button>
+        </div>
+        <div class="drawer-body" id="favList">
+            <p class="empty-msg" data-i18n="fav_empty">Henüz favori ürününüz yok.</p>
+        </div>
+    </div>
+
+    <div class="verify-section">
+        <div class="verify-container">
+            <i class="fas fa-certificate verify-icon"></i>
+            <h1 data-i18n="verify_title">Orijinallik <span class="gold-text">Sorgulama</span></h1>
+            <p data-i18n="verify_subtitle">Satın aldığınız ürünün seri numarasını girerek orijinalliğini teyit
+                edebilirsiniz.</p>
+
+            <div class="verify-form">
+                <input type="text" id="serialInput" placeholder="Sertifika No (Örn: OSM-2026-X)"
+                    data-i18n-placeholder="verify_placeholder">
+                <button id="verifyBtn" class="btn-gold" data-i18n="verify_btn">SORGULA</button>
+            </div>
+
+            <div id="verifyResult" class="verify-result">
+                <!-- Dynamic Request -->
+            </div>
+        </div>
+    </div>
+
+    <footer id="iletisim">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Ahmet Yılmaz <span class="gold-text">Rosary</span></h3>
+                <p data-i18n="footer_brand_desc">Lüksün ve zarafetin adresi.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html" data-i18n="nav_home">Ana Sayfa</a>
+                <a href="koleksiyon.html" data-i18n="nav_collection">Koleksiyon</a>
+                <a href="sorgula.html" data-i18n="nav_verify">Sorgula</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/ahmet_yilmazrosary?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://wa.me/905350580363" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p data-i18n="copyright">&copy; 2026 Ahmet Yılmaz Rosary. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <input type="hidden" id="page-verify" value="true">
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <button class="search-close-btn" id="searchCloseBtn">&times;</button>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInputModal" placeholder="Ürün ara..." autocomplete="off">
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- Mobile Floating Lang FAB -->
+    <div class="mobile-lang-fab" id="mobileLangFab">
+        <i class="fas fa-globe"></i>
+        <div class="lang-menu-popover">
+            <div class="lang-pop-item" onclick="setLanguage('tr')">TR</div>
+            <div class="lang-pop-item" onclick="setLanguage('en')">EN</div>
+            <div class="lang-pop-item" onclick="setLanguage('ar')">AR</div>
+            <div class="lang-pop-item" onclick="setLanguage('ru')">RU</div>
+            <div class="lang-pop-item" onclick="setLanguage('de')">DE</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

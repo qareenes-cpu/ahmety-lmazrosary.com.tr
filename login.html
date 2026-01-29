@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap | Ahmet Yılmaz Rosary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+</head>
+
+<body class="login-page">
+
+    <div class="login-card">
+        <div class="login-lang" style="position: absolute; top: 20px; right: 20px;">
+            <div class="lang-selector">
+                <i class="fas fa-globe"></i>
+                <span id="currentLang">TR</span>
+                <div class="lang-dropdown">
+                    <div class="lang-option" onclick="setLanguage('tr')">TR</div>
+                    <div class="lang-option" onclick="setLanguage('en')">EN</div>
+                    <div class="lang-option" onclick="setLanguage('ar')">AR</div>
+                    <div class="lang-option" onclick="setLanguage('ru')">RU</div>
+                    <div class="lang-option" onclick="setLanguage('de')">DE</div>
+                </div>
+            </div>
+        </div>
+        <a href="index.html" class="logo"><span class="main-name">Ahmet Yılmaz</span><span
+                class="gold-text">Rosary</span></a>
+        <h2 data-i18n="login_title">Giriş Yap</h2>
+
+
+
+        <form id="loginForm" class="login-form">
+            <div class="input-group">
+                <label for="username" data-i18n="login_user">Kullanıcı Adı veya E-posta</label>
+                <input type="text" id="username" class="login-input" placeholder="Admin" required
+                    autocomplete="username">
+            </div>
+
+            <div class="input-group">
+                <label for="password" data-i18n="login_pass">Şifre</label>
+                <input type="password" id="password" class="login-input" placeholder="••••••••" required
+                    autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn-login" data-i18n="login_btn">GİRİŞ YAP</button>
+
+            <div id="loginMessage"></div>
+        </form>
+
+        <div class="login-footer">
+            <p><span data-i18n="no_account">Hesabınız yok mu?</span> <a href="register.html" data-i18n="register">Kayıt
+                    Ol</a></p>
+            <p data-i18n="copyright">&copy; 2026 Ahmet Yılmaz Rosary. Tüm hakları saklıdır.</p>
+            <p><a href="index.html"><i class="fas fa-arrow-left"></i> <span data-i18n="back_to_web">Web Sitesine
+                        Dön</span></a></p>
+        </div>
+
+    </div>
+
+    <!-- Mobile Floating Lang FAB -->
+    <div class="mobile-lang-fab" id="mobileLangFab">
+        <i class="fas fa-globe"></i>
+        <div class="lang-menu-popover">
+            <div class="lang-pop-item" onclick="setLanguage('tr')">TR</div>
+            <div class="lang-pop-item" onclick="setLanguage('en')">EN</div>
+            <div class="lang-pop-item" onclick="setLanguage('ar')">AR</div>
+            <div class="lang-pop-item" onclick="setLanguage('ru')">RU</div>
+            <div class="lang-pop-item" onclick="setLanguage('de')">DE</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
