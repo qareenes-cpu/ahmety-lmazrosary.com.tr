@@ -642,9 +642,124 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    // --- SITE SECTION IMAGES LOGIC ---
+    const siteImagesList = document.getElementById('siteImagesList');
+    let allSiteImages = [];
+
+    const fetchSiteImages = async () => {
+        try {
+            const res = await fetch('/api/site-images');
+            allSiteImages = await res.json();
+            renderSiteImages();
+        } catch (err) {
+            console.error('Site görselleri yüklenemedi:', err);
+        }
+    };
+
+    const sectionIcons = {
+        'hero_bg': 'fas fa-mountain',
+        'intro_visual': 'fas fa-handshake',
+        'masterpiece_visual': 'fas fa-gem'
+    };
+
+    const renderSiteImages = () => {
+        if (!siteImagesList) return;
+
+        if (allSiteImages.length === 0) {
+            siteImagesList.innerHTML = '<p style="color: #666; font-style: italic;">Henüz bölüm görseli tanımlanmamış.</p>';
+            return;
+        }
+
+        siteImagesList.innerHTML = allSiteImages.map(img => {
+            const icon = sectionIcons[img.section_key] || 'fas fa-image';
+            return `
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; transition: all 0.3s ease;" onmouseover="this.style.borderColor='var(--accent-gold)'" onmouseout="this.style.borderColor='var(--glass-border)'">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+                    <i class="${icon}" style="color: var(--accent-gold); font-size: 1rem;"></i>
+                    <h4 style="color: #fff; margin: 0; font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 1px;">${img.section_label}</h4>
+                </div>
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="position: relative; width: 180px; height: 120px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(212,175,55,0.2); flex-shrink: 0;">
+                        <img src="${img.image_url}" alt="${img.section_label}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/amber-tesbih.png'">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 5px 8px;">
+                            <span style="font-size: 0.6rem; color: #aaa; font-family: monospace;">${img.section_key}</span>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <p style="color: #888; font-size: 0.75rem; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">Mevcut Görsel Yolu</p>
+                        <div style="background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 4px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                            <code style="color: var(--accent-gold); font-size: 0.8rem; word-break: break-all;">${img.image_url}</code>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <input type="file" id="siteImgUpload_${img.section_key}" accept="image/*" style="display: none;" onchange="handleSiteImageUpload('${img.section_key}', this)">
+                            <button onclick="document.getElementById('siteImgUpload_${img.section_key}').click()" class="btn-premium" style="padding: 8px 16px; font-size: 0.7rem;">
+                                <i class="fas fa-cloud-upload-alt"></i> Yeni Görsel Yükle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        }).join('');
+    };
+
+    window.handleSiteImageUpload = async (sectionKey, inputEl) => {
+        if (!inputEl.files || inputEl.files.length === 0) return;
+
+        const formData = new FormData();
+        formData.append('images', inputEl.files[0]);
+
+        // Find the button near this input
+        const container = inputEl.closest('div[style*="background: rgba(255,255,255,0.03)"]');
+        const btn = container?.querySelector('.btn-premium');
+        const originalBtnHTML = btn ? btn.innerHTML : '';
+
+        if (btn) {
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yükleniyor...';
+            btn.disabled = true;
+        }
+
+        try {
+            // Upload the file
+            const uploadRes = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            });
+            const uploadData = await uploadRes.json();
+
+            if (uploadRes.ok && uploadData.urls && uploadData.urls[0]) {
+                // Update the site image
+                const updateRes = await fetch(`/api/site-images/${sectionKey}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image_url: uploadData.urls[0] })
+                });
+
+                if (updateRes.ok) {
+                    alert('Görsel başarıyla güncellendi!');
+                    fetchSiteImages();
+                } else {
+                    throw new Error('Görsel kaydedilemedi');
+                }
+            } else {
+                throw new Error(uploadData.error || 'Yükleme hatası');
+            }
+        } catch (err) {
+            console.error('Site görseli yükleme hatası:', err);
+            alert('Görsel yüklenirken hata oluştu: ' + err.message);
+        } finally {
+            if (btn) {
+                btn.innerHTML = originalBtnHTML;
+                btn.disabled = false;
+            }
+            inputEl.value = '';
+        }
+    };
+
     // Initialize
     fetchProducts();
     fetchSettings();
     fetchCategories();
     fetchHeroImages();
+    fetchSiteImages();
 });

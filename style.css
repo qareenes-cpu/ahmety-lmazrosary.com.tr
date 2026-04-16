@@ -125,6 +125,21 @@ body {
     line-height: 1.8;
     -webkit-tap-highlight-color: transparent;
     /* Improve mobile touch feedback */
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+    /* Sublte texture */
+    opacity: 0.03;
+    z-index: 9999;
+    pointer-events: none;
 }
 
 
@@ -860,8 +875,37 @@ h3 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--bg-color);
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("assets/visuals/hero_bg_1.jpg");
+    background-size: cover;
+    background-position: center;
     z-index: -1;
+    transform: scale(1.1); /* For parallax/reveal effect */
+    animation: heroReveal 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("assets/visuals/hero_bg_2.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: heroCrossfade 12s infinite;
+    z-index: 1;
+}
+
+@keyframes heroCrossfade {
+    0%, 35% { opacity: 0; }
+    45%, 85% { opacity: 1; }
+    95%, 100% { opacity: 0; }
+}
+
+@keyframes heroReveal {
+    to { transform: scale(1); }
 }
 
 .hero-content {
@@ -949,10 +993,67 @@ h3 {
 
 .intro-text p {
     max-width: 700px;
-    margin: 0 auto;
+    margin: 0;
     font-size: 1.1rem;
     line-height: 1.8;
     color: #aaa;
+}
+
+.intro-section.split {
+    padding: 150px 0;
+}
+
+.intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 80px;
+}
+
+.intro-visual {
+    position: relative;
+}
+
+.intro-visual .img-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: transparent;
+}
+
+.intro-visual .img-wrapper::after {
+    /* Removed old border to allow seamless blending */
+    display: none;
+}
+
+.intro-visual img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+    
+    /* Make dark background of the image blend into the site gracefully */
+    mix-blend-mode: lighten;
+    
+    /* Smooth edge fade out so the square photo corners disappear */
+    -webkit-mask-image: radial-gradient(circle at center, black 65%, transparent 100%);
+    mask-image: radial-gradient(circle at center, black 65%, transparent 100%);
+}
+
+.intro-visual:hover img {
+    transform: scale(1.05);
+}
+
+@media (max-width: 992px) {
+    .intro-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 50px;
+    }
+    
+    .intro-text p {
+        margin: 0 auto;
+    }
 }
 
 /* Collection Section */
@@ -1143,6 +1244,38 @@ h3 {
     font-weight: 700;
 }
 
+/* About Section */
+.about-section {
+    padding: 120px 50px;
+    background-color: #121212;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+@media (max-width: 992px) {
+    .about-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .about-text .gold-subtitle {
+        display: block;
+    }
+    .about-text .about-divider {
+        margin: 0 auto 30px auto !important;
+    }
+    .about-visual {
+        min-height: 300px;
+    }
+}
+
 /* Featured Section (Sanat) */
 .featured-section {
     padding: 150px 50px;
@@ -1183,11 +1316,28 @@ h3 {
 
 .featured-visual {
     flex: 1;
-    height: 400px;
+    height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.masterpiece-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    mix-blend-mode: lighten;
+    -webkit-mask-image: radial-gradient(circle at center, black 65%, transparent 100%);
+    mask-image: radial-gradient(circle at center, black 65%, transparent 100%);
+    transition: all 1s ease;
+}
+
+.featured-section:hover .masterpiece-img {
+    filter: brightness(1);
+    transform: scale(1.02);
 }
 
 /* Glowing orb styles removed */

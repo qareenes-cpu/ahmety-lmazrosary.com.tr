@@ -129,6 +129,29 @@ const initDB = async () => {
             )
             `);
 
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS site_images(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                section_key VARCHAR(100) UNIQUE NOT NULL,
+                section_label VARCHAR(255) NOT NULL,
+                image_url VARCHAR(500) NOT NULL,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            )
+            `);
+
+        // Seed default site images if empty
+        const [siteImgRows] = await connection.query('SELECT COUNT(*) as count FROM site_images');
+        if (siteImgRows[0].count === 0) {
+            const defaultSiteImages = [
+                ['hero_bg', 'Hero Arka Plan (Zamanın Ötesinde Bir Miras)', 'assets/visuals/hero_bg.png'],
+                ['intro_visual', 'Tanıtım Görseli (Gelenek ve Lüksün Buluşması)', 'assets/visuals/intro_tesbih.png'],
+                ['masterpiece_visual', 'Ustalık Eseri Görseli', 'assets/visuals/masterpiece_detail.png']
+            ];
+            for (const [key, label, url] of defaultSiteImages) {
+                await connection.query('INSERT IGNORE INTO site_images (section_key, section_label, image_url) VALUES (?, ?, ?)', [key, label, url]);
+            }
+        }
+
         // Initialize default settings
         await connection.query(`
             INSERT IGNORE INTO settings(setting_key, setting_value) VALUES('show_price', 'true')
@@ -330,6 +353,32 @@ app.delete('/api/hero-images/:id', async (req, res) => {
         const { id } = req.params;
         await pool.query('DELETE FROM hero_images WHERE id = ?', [id]);
         res.json({ message: 'Hero görsel silindi' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Site Images Endpoints
+app.get('/api/site-images', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM site_images ORDER BY id ASC');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.put('/api/site-images/:key', async (req, res) => {
+    try {
+        const { key } = req.params;
+        const { image_url } = req.body;
+        if (!image_url) return res.status(400).json({ error: 'Görsel URL gerekli' });
+
+        await pool.query(
+            'UPDATE site_images SET image_url = ? WHERE section_key = ?',
+            [image_url, key]
+        );
+        res.json({ message: 'Site görseli güncellendi' });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

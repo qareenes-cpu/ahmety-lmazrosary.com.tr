@@ -92,15 +92,16 @@
         </div>
     </header>
 
-    <section id="intro" class="intro-section">
-        <div class="container">
-            <div class="intro-text" data-scroll>
-                <h2 data-i18n="intro_heading">Gelenek ve <span class="gold-text">Lüksün</span> Buluşması</h2>
-                <div class="divider"></div>
-                <p data-i18n="intro_text">Yüzyıllık geleneği modern estetikle harmanlıyoruz. Her bir tesbihimiz,
-                    ustalarımızın sabır ve
-                    titizlikle işlediği, nesilden nesile aktarılacak birer sanat eseridir.</p>
-            </div>
+    <!-- Sorgulama Yönlendirme Alanı -->
+    <section id="sorgulama-bolumu" style="padding: 100px 20px; background-color: #0d0d0d; text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.1);">
+        <div class="container" data-scroll>
+            <i class="fas fa-certificate" style="font-size: 3.5rem; color: #ffffff; margin-bottom: 25px;"></i>
+            <h2 style="font-size: 2.8rem; margin-bottom: 15px; font-family: var(--font-heading); color: #fff;">Sertifika Doğrulama</h2>
+            <div style="width: 80px; height: 2px; background: #ffffff; margin: 0 auto 25px auto;"></div>
+            <p style="font-size: 1.1rem; color: #aaa; max-width: 650px; margin: 0 auto 35px auto; line-height: 1.8;">Satın aldığınız her Ahmet Yılmaz Rosary ürünü benzersiz bir orijinallik sertifikası ile gelir. Zaten bir tesbihin var mı? Hemen sertifika kodunla sorgula.</p>
+            <a href="sorgula.html" class="btn-gold" style="display: inline-block; padding: 15px 40px; font-size: 1.1rem; letter-spacing: 2px;">
+                <i class="fas fa-search" style="margin-right: 10px;"></i>Hemen Sorgula
+            </a>
         </div>
     </section>
 
@@ -115,6 +116,30 @@
             <a href="koleksiyon.html" id="loadMoreBtn" class="btn-outline"
                 style="text-decoration: none; padding: 12px 30px; display: inline-block;" data-i18n="all_collection">Tüm
                 Koleksiyonu Gör</a>
+        </div>
+    </section>
+
+    <!-- Hakkımızda Bölümü -->
+    <section id="hakkimizda" class="about-section">
+        <div class="about-container" data-scroll>
+            <div class="about-text">
+                <span class="gold-subtitle" style="color: var(--gold); font-family: var(--font-cinzel); letter-spacing: 3px; font-size: 0.9rem; text-transform: uppercase;">Hikayemiz</span>
+                <h2 style="font-size: 3rem; margin-top: 10px; margin-bottom: 30px; font-family: var(--font-heading);">Ahmet Yılmaz <br><span style="color: #fff; font-weight: 300;">Sanat Evi</span></h2>
+                <div class="about-divider" style="width: 60px; height: 2px; background: var(--gold); margin-bottom: 30px;"></div>
+                <p style="color: #aaa; line-height: 1.8; font-size: 1.1rem; margin-bottom: 20px;">
+                    Yıllara meydan okuyan ustalık serüvenimiz, tesbih yapımına duyduğumuz derin tutkuyla başladı. Klasik el işçiliğinin ince detaylarını, günümüz modern estetiğiyle birleştirerek sanatseverlere sunuyoruz.
+                </p>
+                <p style="color: #aaa; line-height: 1.8; font-size: 1.1rem;">
+                    Amacımız sadece bir aksesuar değil; elinizde değerlenecek, nesilden nesile aktarılacak ve size özel bir miras bırakmaktır.
+                </p>
+            </div>
+            <div class="about-visual">
+                 <!-- Şimdilik estetik bir doku/simge tutucu. Buraya resim de koyabiliriz. -->
+                 <div style="background: linear-gradient(135deg, #1a1a1a, #050505); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 40px; display: flex; align-items: center; justify-content: center; height: 100%; min-height: 400px; position: relative;">
+                    <i class="fas fa-gem" style="font-size: 6rem; color: rgba(255,255,255,0.05); position: absolute;"></i>
+                    <h3 style="font-family: var(--font-cinzel); color: rgba(255,255,255,0.4); z-index: 2; letter-spacing: 6px; font-size: 1.5rem; text-transform: uppercase;">%100 El İşçiliği</h3>
+                 </div>
+            </div>
         </div>
     </section>
 
@@ -133,8 +158,7 @@
             </ul>
         </div>
         <div class="featured-visual" data-scroll>
-            <!-- Abstract representation since we lack images -->
-            <!-- Orb removed -->
+            <img src="assets/visuals/intro_tesbih.jpg" alt="Masterpiece Detail" class="masterpiece-img">
         </div>
     </section>
 
